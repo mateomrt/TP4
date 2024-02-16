@@ -61,5 +61,6 @@ namespace TP4.Models.EntityFramework
         [InverseProperty(nameof(Notation.UtilisateurNotant))]
         public virtual ICollection<Notation> NotesUtilisateur { get; set; }
 
+        
     }
 }
