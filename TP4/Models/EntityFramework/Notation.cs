@@ -15,7 +15,7 @@ namespace TP4.Models.EntityFramework
         public int FilmId { get; set; }
 
         [Column("not_note")]
-        public string Note { get; set; }
+        public int Note { get; set; }
 
         [ForeignKey(nameof(FilmId))]
         [InverseProperty(nameof(Film.NotesFilm))]
