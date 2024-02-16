@@ -117,14 +117,34 @@ namespace TP4.Controllers.Tests
         [TestMethod()]
         public void PutUtilisateurTest()
         {
-            Assert.Fail();
+            Random rnd = new Random();
+            int chiffre = rnd.Next(1, 1000000000);
+            
+            Utilisateur userAtester = new Utilisateur()
+            {
+                Nom = "MACHIN",
+                Prenom = "Luc",
+                Mobile = "0606070809",
+                Mail = "machin" + chiffre + "@gmail.com",
+                Pwd = "Toto1234!",
+                Rue = "Chemin de Bellevue",
+                CodePostal = "74940",
+                Ville = "Annecy-le-Vieux",
+                Pays = "France",
+                Latitude = null,
+                Longitude = null
+            };
+            // Act
+            var result = controller.PutUtilisateur(13 ,userAtester).Result; // .Result pour appeler la méthode async de manière synchrone, afin d'attendre l’ajout
+            // Assert
+            Utilisateur? userRecupere = ctx.Utilisateurs.Where(u => u.UtilisateurId == 13).FirstOrDefault(); // On récupère l'utilisateur créé directement dans la BD grace à son mail unique
+            // On ne connait pas l'ID de l’utilisateur envoyé car numéro automatique.
+            // Du coup, on récupère l'ID de celui récupéré et on compare ensuite les 2 users
+            userAtester.UtilisateurId = userRecupere.UtilisateurId;
+            Assert.AreEqual(userRecupere, userAtester, "Utilisateurs pas identiques");
         }
 
 
-        [TestMethod()]
-        public void DeleteUtilisateurTest()
-        {
-            Assert.Fail();
-        }
+
     }
 }
