@@ -1,6 +1,9 @@
-﻿namespace TP4.Models.EntityFramework
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace TP4.Models.EntityFramework
 {
-    public class FilmRatingsDBContext
+    public class FilmRatingsDBContext : DbContext
     {
+
     }
 }
