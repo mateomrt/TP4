@@ -22,11 +22,6 @@ namespace TP4.Controllers.Tests
             controller = new UtilisateursController(context);
 
         }
-        [TestMethod()]
-        public void UtilisateursControllerTest()
-        {
-            Assert.Fail();
-        }
 
         [TestMethod()]
         public void GetUtilisateursTest()
