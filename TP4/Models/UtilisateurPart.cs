@@ -19,8 +19,7 @@ namespace TP4.Models.EntityFramework
                    Ville == other.Ville &&
                    Pays == other.Pays &&
                    Latitude == other.Latitude &&
-                   Longitude == other.Longitude &&
-                   DateCreation == other.DateCreation;
+                   Longitude == other.Longitude;
         }
     }
 }
