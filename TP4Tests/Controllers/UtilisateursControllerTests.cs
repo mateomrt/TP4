@@ -22,7 +22,7 @@ namespace TP4.Controllers.Tests
         [TestInitialize]
         public void UtilisateursControllerTestsConstructor()
         {
-            var builder = new DbContextOptionsBuilder<FilmRatingsDBContext>().UseNpgsql(…);
+            var builder = new DbContextOptionsBuilder<FilmRatingsDBContext>().UseNpgsql("Server=localhost;port=5432;Database=FilmRatingsDB; uid=postgres;password=postgres;");
             ctx = new FilmRatingsDBContext(builder.Options);
             dataRepository = new UtilisateurManager(ctx);
             controller = new UtilisateursController(dataRepository);
@@ -52,6 +52,7 @@ namespace TP4.Controllers.Tests
             ActionResult<Utilisateur> resultat = zz.Result;
             Utilisateur user = resultat.Value;
 
+            Assert.AreEqual(expectedUser, user);
 
             var result = controller.GetUtilisateurById(1000);
             Assert.IsInstanceOfType(result, typeof(Task<ActionResult<Utilisateur>>));
@@ -61,14 +62,13 @@ namespace TP4.Controllers.Tests
 
             Assert.IsInstanceOfType(serieResult, typeof(NotFoundResult));
 
-            Assert.AreEqual(expectedUser, user);
 
         }
 
         [TestMethod()]
         public void GetUtilisateurByEmailTest()
         {
-            Utilisateur expectedUser = ctx.Utilisateurs.Where(c => c.Mail == "clilleymd@last.fm").FirstOrDefault();
+            Utilisateur expectedUser = ctx.Utilisateurs.FirstOrDefault(c => c.Mail == "clilleymd@last.fm");
 
             Task<ActionResult<Utilisateur>> zz = controller.GetUtilisateurByEmail("clilleymd@last.fm");
             ActionResult<Utilisateur> resultat = zz.Result;
@@ -128,7 +128,7 @@ namespace TP4.Controllers.Tests
             
             Utilisateur userAtester = new Utilisateur()
             {
-                UtilisateurId = 13,
+                UtilisateurId = 14,
                 Nom = "MACHIN",
                 Prenom = "Luc",
                 Mobile = "0606070809",
@@ -142,9 +142,10 @@ namespace TP4.Controllers.Tests
                 Longitude = null
             };
             // Act
-            var result = controller.PutUtilisateur(13 ,userAtester).Result; // .Result pour appeler la méthode async de manière synchrone, afin d'attendre l’ajout
+            var result = controller.PutUtilisateur(14 ,userAtester).Result; // .Result pour appeler la méthode async de manière synchrone, afin d'attendre l’ajout
             // Assert
-            Utilisateur? userRecupere = ctx.Utilisateurs.FirstOrDefault(u => u.UtilisateurId == 13); // On récupère l'utilisateur créé directement dans la BD grace à son mail unique
+            
+            Utilisateur? userRecupere = ctx.Utilisateurs.FirstOrDefault(u => u.UtilisateurId == 14); // On récupère l'utilisateur créé directement dans la BD grace à son mail unique
             // On ne connait pas l'ID de l’utilisateur envoyé car numéro automatique.
             // Du coup, on récupère l'ID de celui récupéré et on compare ensuite les 2 users
             userAtester.UtilisateurId = userRecupere.UtilisateurId;

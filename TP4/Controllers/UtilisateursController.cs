@@ -24,7 +24,7 @@ namespace TP4.Controllers
     [HttpGet]
         public async Task<ActionResult<IEnumerable<Utilisateur>>> GetUtilisateurs()
         {
-            return dataRepository.GetAll();
+            return await dataRepository.GetAllAsync();
         }
         // GET: api/Utilisateurs/5
         [HttpGet]
@@ -36,7 +36,7 @@ namespace TP4.Controllers
         {
             var utilisateur = await dataRepository.GetByIdAsync(id);
             //var utilisateur = await _context.Utilisateurs.FindAsync(id);
-            if (utilisateur == null)
+            if (utilisateur.Value == null)
             {
                 return NotFound();
             }
@@ -52,7 +52,7 @@ namespace TP4.Controllers
         public async Task<ActionResult<Utilisateur>> GetUtilisateurByEmail(string email)
         {
             var utilisateur = await dataRepository.GetByStringAsync(email);
-            if (utilisateur == null)
+            if (utilisateur.Value == null)
             {
                 return NotFound();
             }
@@ -70,14 +70,14 @@ namespace TP4.Controllers
             {
                 return BadRequest();
             }
-            var userToUpdate = dataRepository.GetById(id);
-            if (userToUpdate == null)
+            var userToUpdate = await dataRepository.GetByIdAsync(id);
+            if (userToUpdate.Value == null)
             {
                 return NotFound();
             }
             else
             {
-                dataRepository.Update(userToUpdate.Value, utilisateur);
+                await dataRepository.UpdateAsync(userToUpdate.Value, utilisateur);
                 return NoContent();
             }
         }
@@ -92,7 +92,7 @@ namespace TP4.Controllers
             {
                 return BadRequest(ModelState);
             }
-            dataRepository.Add(utilisateur);
+            await dataRepository.AddAsync(utilisateur);
             return CreatedAtAction("GetById", new { id = utilisateur.UtilisateurId }, utilisateur); // GetById : nom de l’action
         }
         // DELETE: api/Utilisateurs/5
@@ -101,12 +101,12 @@ namespace TP4.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteUtilisateur(int id)
         {
-            var utilisateur = dataRepository.GetById(id);
+            var utilisateur = await dataRepository.GetByIdAsync(id);
             if (utilisateur == null)
             {
                 return NotFound();
             }
-            dataRepository.Delete(utilisateur.Value);
+            await dataRepository.DeleteAsync(utilisateur.Value);
             return NoContent();
         }
          //private bool UtilisateurExists(int id)
