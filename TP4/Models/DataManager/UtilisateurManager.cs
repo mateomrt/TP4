@@ -17,9 +17,9 @@ namespace TP4.Models.DataManager
         {
             return filmsDbContext.Utilisateurs.ToList();
         }
-        public ActionResult<Utilisateur> GetById(int id)
+        public async Task<ActionResult<Utilisateur>> GetById(int id)
         {
-            return filmsDbContext.Utilisateurs.FirstOrDefault(u => u.UtilisateurId == id);
+            return await filmsDbContext.Utilisateurs.FirstOrDefault(u => u.UtilisateurId == id);
         }
         public async Task<ActionResult<Utilisateur>> GetByStringAsync(string mail)
         {

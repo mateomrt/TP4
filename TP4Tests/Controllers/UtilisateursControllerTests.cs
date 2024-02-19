@@ -46,7 +46,7 @@ namespace TP4.Controllers.Tests
         [TestMethod()]
         public void GetUtilisateurByIdTest()
         {
-            Utilisateur expectedUser = ctx.Utilisateurs.Where(c => c.UtilisateurId == 1).FirstOrDefault();
+            Utilisateur expectedUser = ctx.Utilisateurs.FirstOrDefault(c => c.UtilisateurId == 1);
 
             Task<ActionResult<Utilisateur>> zz = controller.GetUtilisateurById(1) ;
             ActionResult<Utilisateur> resultat = zz.Result;
@@ -112,7 +112,7 @@ namespace TP4.Controllers.Tests
             // Act
             var result = controller.PostUtilisateur(userAtester).Result; // .Result pour appeler la méthode async de manière synchrone, afin d'attendre l’ajout
             // Assert
-            Utilisateur? userRecupere = ctx.Utilisateurs.Where(u => u.Mail.ToUpper() == userAtester.Mail.ToUpper()).FirstOrDefault(); // On récupère l'utilisateur créé directement dans la BD grace à son mail unique
+            Utilisateur? userRecupere = ctx.Utilisateurs.FirstOrDefault(u => u.Mail.ToUpper() == userAtester.Mail.ToUpper()); // On récupère l'utilisateur créé directement dans la BD grace à son mail unique
             // On ne connait pas l'ID de l’utilisateur envoyé car numéro automatique.
             // Du coup, on récupère l'ID de celui récupéré et on compare ensuite les 2 users
             userAtester.UtilisateurId = userRecupere.UtilisateurId;
@@ -144,7 +144,7 @@ namespace TP4.Controllers.Tests
             // Act
             var result = controller.PutUtilisateur(13 ,userAtester).Result; // .Result pour appeler la méthode async de manière synchrone, afin d'attendre l’ajout
             // Assert
-            Utilisateur? userRecupere = ctx.Utilisateurs.Where(u => u.UtilisateurId == 13).FirstOrDefault(); // On récupère l'utilisateur créé directement dans la BD grace à son mail unique
+            Utilisateur? userRecupere = ctx.Utilisateurs.FirstOrDefault(u => u.UtilisateurId == 13); // On récupère l'utilisateur créé directement dans la BD grace à son mail unique
             // On ne connait pas l'ID de l’utilisateur envoyé car numéro automatique.
             // Du coup, on récupère l'ID de celui récupéré et on compare ensuite les 2 users
             userAtester.UtilisateurId = userRecupere.UtilisateurId;
@@ -175,13 +175,13 @@ namespace TP4.Controllers.Tests
             ctx.Utilisateurs.Add(userAtester);
             ctx.SaveChanges();
 
-            int id = ctx.Utilisateurs.Where(x => x.Mail == userAtester.Mail).FirstOrDefault().UtilisateurId;
+            int id = ctx.Utilisateurs.FirstOrDefault(x => x.Mail == userAtester.Mail).UtilisateurId;
 
             var delete = controller.DeleteUtilisateur(id); // .Result pour appeler la méthode async de manière synchrone, afin d'attendre l’ajout
 
             Thread.Sleep(1000);
 
-            Utilisateur? result = ctx.Utilisateurs.Where(x => x.UtilisateurId == id).FirstOrDefault();
+            Utilisateur? result = ctx.Utilisateurs.FirstOrDefault(x => x.UtilisateurId == id);
 
             Assert.IsNull(result);
 
