@@ -34,7 +34,7 @@ namespace TP4.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Utilisateur>> GetUtilisateurById(int id)
         {
-            var utilisateur = dataRepository.GetById(id);
+            var utilisateur = await dataRepository.GetByIdAsync(id);
             //var utilisateur = await _context.Utilisateurs.FindAsync(id);
             if (utilisateur == null)
             {
