@@ -36,7 +36,7 @@ namespace TP4.Controllers
         {
             var utilisateur = await dataRepository.GetByIdAsync(id);
             //var utilisateur = await _context.Utilisateurs.FindAsync(id);
-            if (utilisateur.Value == null)
+            if (utilisateur == null)
             {
                 return NotFound();
             }
@@ -52,7 +52,7 @@ namespace TP4.Controllers
         public async Task<ActionResult<Utilisateur>> GetUtilisateurByEmail(string email)
         {
             var utilisateur = await dataRepository.GetByStringAsync(email);
-            if (utilisateur.Value == null)
+            if (utilisateur == null)
             {
                 return NotFound();
             }
