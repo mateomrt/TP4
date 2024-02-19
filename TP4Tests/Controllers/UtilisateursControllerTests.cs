@@ -8,20 +8,24 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TP4.Models.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
+using TP4.Models.Repository;
+using TP4.Models.DataManager;
 
 namespace TP4.Controllers.Tests
 {
     [TestClass()]
     public class UtilisateursControllerTests
     {
-        public UtilisateursController controller;
-        public FilmRatingsDBContext ctx;
+        private UtilisateursController controller;
+        private FilmRatingsDBContext ctx;
+        private IDataRepository<Utilisateur> dataRepository;
         [TestInitialize]
         public void UtilisateursControllerTestsConstructor()
         {
-            var builder = new DbContextOptionsBuilder<FilmRatingsDBContext>().UseNpgsql("Server=localhost;port=5432;Database=FilmRatingsDB; uid=postgres; password=postgres;"); // Chaine de connexion à mettre dans les ( )
+            var builder = new DbContextOptionsBuilder<FilmRatingsDBContext>().UseNpgsql(…);
             ctx = new FilmRatingsDBContext(builder.Options);
-            controller = new UtilisateursController(ctx);
+            dataRepository = new UtilisateurManager(ctx);
+            controller = new UtilisateursController(dataRepository);
 
         }
 

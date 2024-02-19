@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using TP4.Models.DataManager;
 using TP4.Models.EntityFramework;
+using TP4.Models.Repository;
 
 namespace TP4
 {
@@ -13,6 +15,7 @@ namespace TP4
             builder.Services.AddDbContext<FilmRatingsDBContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("FilmRatingsDBContext")));
             builder.Services.AddControllers();
+            builder.Services.AddScoped<IDataRepository<Utilisateur>, UtilisateurManager>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
