@@ -113,6 +113,8 @@ namespace TP4.Controllers.Tests
             // Du coup, on récupère l'ID de celui récupéré et on compare ensuite les 2 users
             userAtester.UtilisateurId = userRecupere.UtilisateurId;
             Assert.AreEqual(userRecupere, userAtester, "Utilisateurs pas identiques");
+
+            
         }
         [TestMethod()]
         public void PutUtilisateurTest()
@@ -122,6 +124,7 @@ namespace TP4.Controllers.Tests
             
             Utilisateur userAtester = new Utilisateur()
             {
+                UtilisateurId = 13,
                 Nom = "MACHIN",
                 Prenom = "Luc",
                 Mobile = "0606070809",
@@ -142,6 +145,42 @@ namespace TP4.Controllers.Tests
             // Du coup, on récupère l'ID de celui récupéré et on compare ensuite les 2 users
             userAtester.UtilisateurId = userRecupere.UtilisateurId;
             Assert.AreEqual(userRecupere, userAtester, "Utilisateurs pas identiques");
+        }
+
+        [TestMethod()]
+        public void DeleteUtilisateurTest()
+        {
+            Random rnd = new Random();
+            int chiffre = rnd.Next(1, 1000000000);
+
+            Utilisateur userAtester = new Utilisateur()
+            {
+                Nom = "MARTIN",
+                Prenom = "Matéo",
+                Mobile = "0606070809",
+                Mail = "machin" + chiffre + "@gmail.com",
+                Pwd = "Toto1234!",
+                Rue = "Chemin de Bellevue",
+                CodePostal = "74940",
+                Ville = "Annecy-le-Vieux",
+                Pays = "France",
+                Latitude = null,
+                Longitude = null
+            };
+            
+            ctx.Utilisateurs.Add(userAtester);
+            ctx.SaveChanges();
+
+            int id = ctx.Utilisateurs.Where(x => x.Mail == userAtester.Mail).FirstOrDefault().UtilisateurId;
+
+            var delete = controller.DeleteUtilisateur(id); // .Result pour appeler la méthode async de manière synchrone, afin d'attendre l’ajout
+
+            Thread.Sleep(1000);
+
+            Utilisateur? result = ctx.Utilisateurs.Where(x => x.UtilisateurId == id).FirstOrDefault();
+
+            Assert.IsNull(result);
+
         }
 
 

@@ -73,6 +73,10 @@ namespace TP4.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUtilisateur(int id, Utilisateur utilisateur)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             if (id != utilisateur.UtilisateurId)
             {
                 return BadRequest();
@@ -104,10 +108,10 @@ namespace TP4.Controllers
         [HttpPost]
         public async Task<ActionResult<Utilisateur>> PostUtilisateur(Utilisateur utilisateur)
         {
-          if (_context.Utilisateurs == null)
-          {
-              return Problem("Entity set 'FilmRatingsDBContext.Utilisateurs'  is null.");
-          }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             _context.Utilisateurs.Add(utilisateur);
             await _context.SaveChangesAsync();
 
