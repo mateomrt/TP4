@@ -273,7 +273,6 @@ namespace TP4.Controllers.Tests
         public void PutUtilisateurTest_AvecMoq()
         {
             // Arrange
-
             var mockRepository = new Mock<IDataRepository<Utilisateur>>();
             var userController = new UtilisateursController(mockRepository.Object);
 
@@ -310,11 +309,11 @@ namespace TP4.Controllers.Tests
                 Latitude = 46.344795F,
                 Longitude = 6.4885845F
             };
-            var mockRepository = new Mock<IDataRepository<Utilisateur>>();
+
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(user);
-            var userController = new UtilisateursController(mockRepository.Object);
+
             // Act
-            var actionResult = userController.DeleteUtilisateur(1).Result;
+            var actionResult = userController.PutUtilisateur(user.UtilisateurId, userModifie).Result;
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour
         }
