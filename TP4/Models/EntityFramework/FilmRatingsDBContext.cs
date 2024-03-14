@@ -41,6 +41,8 @@ namespace TP4.Models.EntityFramework
                 entity.Property(e => e.DateCreation).HasDefaultValueSql("now()");
 
                 entity.Property(e => e.Mobile).IsFixedLength();
+
+                entity.HasCheckConstraint("ck_utl_role", "utl_userrole IN ('User', 'Admin')");
             });
 
             modelBuilder.Entity<Notation>(entity =>

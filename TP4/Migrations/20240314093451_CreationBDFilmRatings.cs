@@ -44,11 +44,13 @@ namespace TP4.Migrations
                     utl_pays = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true, defaultValue: "France"),
                     utl_latitude = table.Column<float>(type: "real", nullable: true),
                     utl_longitude = table.Column<float>(type: "real", nullable: true),
-                    utl_datecreation = table.Column<DateTime>(type: "date", nullable: false, defaultValueSql: "now()")
+                    utl_datecreation = table.Column<DateTime>(type: "date", nullable: false, defaultValueSql: "now()"),
+                    utl_userrole = table.Column<string>(type: "character varying(5)", maxLength: 5, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_utl", x => x.utl_id);
+                    table.CheckConstraint("ck_utl_role", "utl_userrole IN ('User', 'Admin')");
                 });
 
             migrationBuilder.CreateTable(

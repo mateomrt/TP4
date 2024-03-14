@@ -148,6 +148,11 @@ namespace TP4.Migrations
                         .HasColumnType("character varying(64)")
                         .HasColumnName("utl_pwd");
 
+                    b.Property<string>("Role")
+                        .HasMaxLength(5)
+                        .HasColumnType("character varying(5)")
+                        .HasColumnName("utl_userrole");
+
                     b.Property<string>("Rue")
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)")
@@ -165,6 +170,8 @@ namespace TP4.Migrations
                         .IsUnique();
 
                     b.ToTable("t_e_utilisateur_utl");
+
+                    b.HasCheckConstraint("ck_utl_role", "utl_userrole IN ('User', 'Admin')");
                 });
 
             modelBuilder.Entity("TP4.Models.EntityFramework.Notation", b =>

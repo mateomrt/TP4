@@ -57,6 +57,11 @@ namespace TP4.Models.EntityFramework
         [Required]
         [Column("utl_datecreation", TypeName = "date")]
         public DateTime DateCreation { get; set; }
+        
+        [Column("utl_userrole")]
+        [StringLength(5)]
+        [RegularExpression(@"^(User|Admin)$", ErrorMessage = "Le role doit être Admin ou User")]
+        public string? Role { get; set; }
 
         [InverseProperty(nameof(Notation.UtilisateurNotant))]
         public virtual ICollection<Notation> NotesUtilisateur { get; set; }
